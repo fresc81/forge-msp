@@ -1,0 +1,1 @@
+commands.script.usage=Use /script <filename>. Runs the given LUA script file on the server

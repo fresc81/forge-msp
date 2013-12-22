@@ -1,0 +1,20 @@
+[
+  {
+    "modid": "msp",
+    "name": "Minecraft Script Pack",
+    "description": "A LUA script engine for Minecraft",
+    "version": "1.0.0",
+    "url": "",
+    "updateUrl": "",
+    "authorList": [
+      "FrEsC"
+    ],
+    "credits": "",
+    "logoFile": "",
+    "screenshots": [
+    ],
+    "parent": "",
+    "dependencies": [
+    ]
+  }
+]
