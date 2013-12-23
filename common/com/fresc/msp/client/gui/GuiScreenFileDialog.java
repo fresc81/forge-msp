@@ -59,5 +59,17 @@ public class GuiScreenFileDialog extends GuiYesNo
   {
     return filename.getText();
   }
+
+  public void setFilename(String filename)
+  {
+    this.filename.setText(filename);
+  }
+
+  public void selectAll()
+  {
+    filename.setCursorPositionEnd();
+    filename.setSelectionPos(0);
+    filename.setFocused(true);
+  }
   
 }

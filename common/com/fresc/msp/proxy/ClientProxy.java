@@ -66,6 +66,7 @@ public class ClientProxy extends CommonProxy
           {
             e.printStackTrace();
           }
+          ClientProxy.this.filename = filename.toString();
           break;
         
         case SAVE:
@@ -81,6 +82,7 @@ public class ClientProxy extends CommonProxy
           {
             e.printStackTrace();
           }
+          ClientProxy.this.filename = filename.toString();
           break;
         
         }
@@ -101,6 +103,8 @@ public class ClientProxy extends CommonProxy
         Minecraft minecraft = Minecraft.getMinecraft();
         GuiScreenFileDialog files = new GuiScreenFileDialog(minecraft.currentScreen);
         minecraft.displayGuiScreen(files);
+        files.setFilename(filename);
+        files.selectAll();
         
       } else if (button == saveButton)
       {
@@ -109,6 +113,8 @@ public class ClientProxy extends CommonProxy
         Minecraft minecraft = Minecraft.getMinecraft();
         GuiScreenFileDialog files = new GuiScreenFileDialog(minecraft.currentScreen);
         minecraft.displayGuiScreen(files);
+        files.setFilename(filename);
+        files.selectAll();
         
       } else if (button == runLocalButton)
       {
@@ -117,7 +123,7 @@ public class ClientProxy extends CommonProxy
         try
         {
           editor.save(bos);
-          runScriptClientSide("script.lua", bos.toString());
+          runScriptClientSide(filename, bos.toString());
         } catch (Exception e)
         {
           e.printStackTrace();
@@ -130,7 +136,7 @@ public class ClientProxy extends CommonProxy
         {
           editor.save(bos);
           String script = bos.toString();
-          PacketMSP packet = new PacketRunScript("script.lua", script);
+          PacketMSP packet = new PacketRunScript(filename, script);
           PacketDispatcher.sendPacketToServer(packet.unwrap());
         } catch (Exception e)
         {
@@ -140,11 +146,15 @@ public class ClientProxy extends CommonProxy
     }
     
   }
+
+  public static final String DEFAULT_FILENAME = "noname.lua";
   
   // the client runs two script engines, one for the client and one for the internal server
   protected Globals clientGlobals = null;
   
   protected GuiScreenEditor editor = null;
+  
+  protected String filename = DEFAULT_FILENAME;
   
   private GuiButton newButton;
 
@@ -172,7 +182,7 @@ public class ClientProxy extends CommonProxy
   public void init(FMLInitializationEvent event)
   {
     super.init(event);
-    
+    initializeClientScriptEngine();
   }
   
   @Override
