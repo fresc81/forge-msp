@@ -37,7 +37,7 @@ public class MSP
   
   public static final String CLIENT_PROXY = "com.fresc.msp.proxy.ClientProxy";
   
-  public static final String SERVER_PROXY = "com.fresc.msp.proxy.CommonProxy";
+  public static final String SERVER_PROXY = "com.fresc.msp.proxy.ServerProxy";
   
   @Instance(MOD_CLASS_NAME)
   public static MSP instance;
