@@ -2,6 +2,7 @@ package com.fresc.msp;
 
 import com.fresc.msp.network.PacketHandler;
 import com.fresc.msp.proxy.CommonProxy;
+import com.fresc.msp.util.MSPConfig;
 
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -22,27 +23,15 @@ import cpw.mods.fml.common.network.NetworkMod;
  * @author Paul Bottin
  *
  */
-@Mod(modid=MSP.MOD_ID, version=MSP.MOD_VERSION, name=MSP.MOD_NAME, useMetadata=true)
-@NetworkMod(channels = { MSP.MOD_ID }, clientSideRequired = false, serverSideRequired = false, packetHandler = PacketHandler.class)
+@Mod(modid=MSPConfig.MOD_ID, version=MSPConfig.MOD_VERSION, name=MSPConfig.MOD_NAME, useMetadata=true)
+@NetworkMod(channels = { MSPConfig.MOD_ID }, clientSideRequired = false, serverSideRequired = false, packetHandler = PacketHandler.class)
 public class MSP
 {
   
-  public static final String MOD_ID = "msp";
-  
-  public static final String MOD_VERSION = "1.0.2";
-  
-  public static final String MOD_NAME = "Minecraft Script Pack";
-  
-  public static final String MOD_CLASS_NAME = "com.fresc.msp.MSP";
-  
-  public static final String CLIENT_PROXY = "com.fresc.msp.proxy.ClientProxy";
-  
-  public static final String SERVER_PROXY = "com.fresc.msp.proxy.ServerProxy";
-  
-  @Instance(MOD_CLASS_NAME)
+  @Instance(MSPConfig.MOD_CLASS_NAME)
   public static MSP instance;
   
-  @SidedProxy(modId=MOD_ID, clientSide=CLIENT_PROXY, serverSide=SERVER_PROXY)
+  @SidedProxy(modId=MSPConfig.MOD_ID, clientSide=MSPConfig.CLIENT_PROXY, serverSide=MSPConfig.SERVER_PROXY)
   public static CommonProxy proxy;
   
   @EventHandler

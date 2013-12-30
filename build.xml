@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== 
+     29.12.2013 11:41:23
+	 
+     MSP - Minecraft Script Pack
+     a LUA script engine for Minecraft
+	 
+     Paul Bottin
+     ====================================================================== -->
+<project name="MSP - Minecraft Script Pack" default="all">
+	
+    <description>
+            a LUA script engine for Minecraft
+    </description>
+	
+	<property file="build.properties"/>
+	<property file="build.number"/>
+	<property name="msp.version" value="1.0.${build.number}"/>
+	
+    <!-- ================================= 
+          target: all
+         ================================= -->
+    <target name="all" depends="clean, copy-sources, prepare, recompile, reobfuscate, package">
+    </target>
+	
+    <!-- ================================= 
+          target: clean
+         ================================= -->
+    <target name="clean" depends="">
+    	<delete dir="${mcp.reobf.dir}" />
+    	<delete dir="${mcp.src.dir}/com" />
+    	<delete dir="${mcp.src.dir}/org" />
+    	<delete file="${mcp.src.dir}/mcmod.info" />
+    	<!-- delete file="${mcp.src.dir}/pack.mcmeta" / -->
+    </target>
+	
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: copy-sources
+         - - - - - - - - - - - - - - - - - -->
+    <target name="copy-sources" depends="">
+    	<copy todir="${mcp.src.dir}">
+    		<fileset dir="${msp.src.common.dir}"/>
+    	</copy>
+    </target>
+	
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: prepare
+         - - - - - - - - - - - - - - - - - -->
+    <target name="prepare" depends="">
+    	<buildnumber file="build.number"/>
+		<property name="msp.version" value="1.0.${build.number}"/>
+    	<replace dir="${mcp.src.dir}" token="@{MSP_VERSION}@" value="${msp.version}">
+    		<include name="com/fresc/msp/util/MSPConfig.java"/>
+    		<include name="mcmod.info"/>
+    		<!-- include name="pack.mcmeta"/ -->
+    	</replace>
+    </target>
+	
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: recompile
+         - - - - - - - - - - - - - - - - - -->
+    <target name="recompile" depends="copy-sources, prepare">
+		<exec dir="${mcp.dir}" executable="cmd" osfamily="windows">
+			<arg line="/c recompile.bat" />
+		</exec>
+		<exec dir="${mcp.dir}" executable="bash" osfamily="unix">
+			<arg line="recompile.sh" />
+		</exec>
+    </target>
+	
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: reobfuscate
+         - - - - - - - - - - - - - - - - - -->
+    <target name="reobfuscate" depends="copy-sources, prepare, recompile">
+		<exec dir="${mcp.dir}" executable="cmd" osfamily="windows">
+			<arg line="/c reobfuscate_srg.bat" />
+		</exec>
+		<exec dir="${mcp.dir}" executable="bash" osfamily="unix">
+			<arg line="reobfuscate_srg.sh" />
+		</exec>
+    </target>
+	
+    <!-- - - - - - - - - - - - - - - - - - 
+          target: package                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="package" depends="copy-sources, prepare, recompile, reobfuscate">
+    	<mkdir dir="${msp.release.dir}"/>
+    	<delete file="${msp.release.dir}/msp-${msp.version}.jar" />
+    	<jar destfile="${msp.release.dir}/msp-${msp.version}.jar">
+			<fileset dir="${mcp.src.dir}" includes="mcmod.info" />
+			<!-- fileset dir="${mcp.src.dir}" includes="pack.mcmeta" / -->
+			<fileset dir="${mcp.reobf.dir}" />
+			<fileset dir="${msp.src.resources.dir}" />
+    	</jar>
+    </target>
+
+</project>

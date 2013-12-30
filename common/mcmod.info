@@ -3,7 +3,7 @@
     "modid": "msp",
     "name": "Minecraft Script Pack",
     "description": "A LUA script engine for Minecraft",
-    "version": "1.0.2",
+    "version": "@{MSP_VERSION}@",
     "url": "",
     "updateUrl": "",
     "authorList": [

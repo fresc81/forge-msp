@@ -11,7 +11,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
 
-import com.fresc.msp.MSP;
+import com.fresc.msp.util.MSPConfig;
 
 public abstract class PacketMSP
 {
@@ -63,7 +63,7 @@ public abstract class PacketMSP
     dos.writeInt(this.packetType.ordinal());
     write(dos);
     dos.flush();
-    Packet250CustomPayload packet = new Packet250CustomPayload(MSP.MOD_ID, bos.toByteArray());
+    Packet250CustomPayload packet = new Packet250CustomPayload(MSPConfig.MOD_ID, bos.toByteArray());
     return packet;
   }
   
